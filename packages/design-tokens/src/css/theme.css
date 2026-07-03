@@ -1,0 +1,786 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/fraunces/opsz.css";
+
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  /* Font families */
+  --font-sans: Söhne, "Styrene A Web", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, "Geist Variable", sans-serif;
+  --font-serif: "Tiempos Text", Copernicus, "Fraunces Variable", ui-serif, Georgia, Cambria, serif;
+
+  /* Font sizes (v4 pairs a --text-{name} with --text-{name}--line-height etc.) */
+  --text-heading-1: 24px;
+  --text-heading-1--line-height: 1.2;
+  --text-heading-1--letter-spacing: -0.04em;
+  --text-heading-1--font-weight: 600;
+  --text-heading-2: 20px;
+  --text-heading-2--line-height: 1.2;
+  --text-heading-2--letter-spacing: -0.04em;
+  --text-heading-2--font-weight: 600;
+  --text-heading-3: 17px;
+  --text-heading-3--line-height: 1.2;
+  --text-heading-3--letter-spacing: -0.04em;
+  --text-heading-3--font-weight: 600;
+  --text-heading-4: 14px;
+  --text-heading-4--line-height: 1.2;
+  --text-heading-4--letter-spacing: -0.04em;
+  --text-heading-4--font-weight: 500;
+  --text-heading-5: 14px;
+  --text-heading-5--line-height: 1.2;
+  --text-heading-5--letter-spacing: 0;
+  --text-heading-5--font-weight: 500;
+  --text-body-1: 16px;
+  --text-body-1--line-height: 1.55;
+  --text-body-1--letter-spacing: 0;
+  --text-body-1--font-weight: 400;
+  --text-body-2: 14px;
+  --text-body-2--line-height: 1.55;
+  --text-body-2--letter-spacing: 0;
+  --text-body-2--font-weight: 400;
+  --text-body-3: 12px;
+  --text-body-3--line-height: 1.5;
+  --text-body-3--letter-spacing: 0.005em;
+  --text-body-3--font-weight: 400;
+  --text-btn-lg: 16px;
+  --text-btn-lg--line-height: 1.2;
+  --text-btn-lg--letter-spacing: -0.005em;
+  --text-btn-lg--font-weight: 500;
+  --text-btn-md: 14px;
+  --text-btn-md--line-height: 1.2;
+  --text-btn-md--letter-spacing: -0.005em;
+  --text-btn-md--font-weight: 500;
+  --text-btn-sm: 13px;
+  --text-btn-sm--line-height: 1.2;
+  --text-btn-sm--letter-spacing: 0;
+  --text-btn-sm--font-weight: 500;
+  --text-btn-xs: 12px;
+  --text-btn-xs--line-height: 1.2;
+  --text-btn-xs--letter-spacing: 0;
+  --text-btn-xs--font-weight: 500;
+
+  /* Spacing */
+  --spacing-inner: 0.5rem;
+  --spacing-grid: 0.75rem;
+  --spacing-section: 1rem;
+
+  /* Colors — flattened from the :root/.dark custom properties below,
+     following Tailwind's DEFAULT-suffix convention. inline so each
+     utility resolves the live var() at paint time (dark-mode swap)
+     rather than a value baked in at build time. */
+  --color-border: hsl(var(--border));
+  --color-skeleton: hsl(var(--skeleton));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--color-neutral-900));
+  --color-white: hsl(var(--color-neutral-0));
+  --color-neutral-0: hsl(var(--color-neutral-0));
+  --color-neutral-50: hsl(var(--color-neutral-50));
+  --color-neutral-100: hsl(var(--color-neutral-100));
+  --color-neutral-200: hsl(var(--color-neutral-200));
+  --color-neutral-300: hsl(var(--color-neutral-300));
+  --color-neutral-400: hsl(var(--color-neutral-400));
+  --color-neutral-900: hsl(var(--color-neutral-900));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-lightGray: hsl(var(--color-neutral-100));
+  --color-tag-primary: hsl(var(--tag-primary));
+  --color-tag-primary-hover: hsl(var(--tag-primary-hover));
+  --color-tag-secondary: hsl(var(--tag-secondary));
+  --color-tag-success: hsl(var(--tag-success));
+  --color-tag-destructive: hsl(var(--tag-destructive));
+  --color-tag-disabled: hsl(var(--tag-disabled));
+  --color-tag-pink: hsl(var(--tag-pink));
+  --color-tag-success-text: hsl(var(--tag-success-text));
+  --color-tag-destructive-text: hsl(var(--tag-destructive-text));
+  --color-tag-product-bg: hsl(var(--tag-product-bg));
+  --color-tag-product-border: hsl(var(--tag-product-border));
+  --color-tag-product-text: hsl(var(--tag-product-text));
+  --color-arning-bg: hsl(var(--color-warning-bg));
+  --color-arning-text: hsl(var(--color-warning-text));
+  --color-info-bg: hsl(var(--color-info-bg));
+  --color-info-text: hsl(var(--color-info-text));
+  --color-orderStatus-completed-bg: hsl(var(--color-success-bg));
+  --color-orderStatus-completed-text: hsl(var(--color-success-text));
+  --color-orderStatus-delivered-bg: hsl(var(--color-success-bg));
+  --color-orderStatus-delivered-text: hsl(var(--color-success-text));
+  --color-orderStatus-preparing-bg: hsl(var(--color-warning-bg));
+  --color-orderStatus-preparing-text: hsl(var(--color-warning-text));
+  --color-orderStatus-pending-bg: hsl(var(--color-disabled-bg));
+  --color-orderStatus-pending-text: hsl(var(--color-neutral-300));
+  --color-orderStatus-cancelled-bg: hsl(var(--color-error-bg));
+  --color-orderStatus-cancelled-text: hsl(var(--color-error-text));
+  --color-orderStatus-ready-bg: hsl(var(--color-info-bg));
+  --color-orderStatus-ready-text: hsl(var(--color-info-text));
+  --color-orderStatus-shipped-bg: hsl(var(--color-info-bg));
+  --color-orderStatus-shipped-text: hsl(var(--color-info-text));
+  --color-order-pending: hsl(var(--color-order-pending));
+  --color-order-confirmed: hsl(var(--color-order-confirmed));
+  --color-order-processing: hsl(var(--color-order-processing));
+  --color-order-onhold: hsl(var(--color-order-onhold));
+  --color-order-completed: hsl(var(--color-order-completed));
+  --color-order-cancelled: hsl(var(--color-order-cancelled));
+  --color-order-default: hsl(var(--color-order-default));
+  --color-content-primary: hsl(var(--color-neutral-900));
+  --color-content-secondary: hsl(var(--color-neutral-400));
+  --color-content-pink-hover: hsl(var(--color-pink-hover));
+  --color-content-tertiary: hsl(var(--color-neutral-300));
+  --color-content-subtle: hsl(var(--color-neutral-100));
+  --color-content-white: hsl(var(--color-neutral-0));
+  --color-content-disabled: hsl(var(--color-disabled-text));
+  --color-content-success: hsl(var(--color-success-text));
+  --color-content-destructive: hsl(var(--color-error-text));
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+  --color-sidebar-item-text: hsl(var(--sidebar-item-text));
+  --color-sidebar-item-icon: hsl(var(--sidebar-item-icon));
+  --color-sidebar-item-hover: hsl(var(--sidebar-item-hover-bg));
+  --color-sidebar-item-active-bg: hsl(var(--sidebar-item-active-bg));
+  --color-sidebar-item-active-text: hsl(var(--sidebar-item-active-text));
+  --color-sidebar-item-active-icon: hsl(var(--sidebar-item-active-icon));
+  --color-sidebar-section-label: hsl(var(--sidebar-section-label));
+  --color-btn-primary-bg: hsl(var(--btn-primary-bg));
+  --color-btn-primary-text: hsl(var(--btn-primary-text));
+  --color-btn-primary-stroke: hsl(var(--btn-primary-stroke));
+  --color-btn-primary-shadow: hsl(var(--btn-primary-inner-shadow));
+  --color-btn-primary-hover-bg: hsl(var(--btn-primary-bg-hover));
+  --color-btn-primary-hover-text: hsl(var(--btn-primary-text-hover));
+  --color-btn-primary-focus-bg: hsl(var(--btn-primary-bg-focus));
+  --color-btn-primary-focus-text: hsl(var(--btn-primary-text-focus));
+  --color-btn-primary-focus-stroke: hsl(var(--btn-primary-stroke-focus));
+  --color-btn-primary-disabled-bg: hsl(var(--btn-primary-bg-disabled));
+  --color-btn-primary-disabled-text: hsl(var(--btn-primary-text-disabled));
+  --color-btn-secondary-bg: var(--btn-secondary-bg);
+  --color-btn-secondary-text: hsl(var(--btn-secondary-text));
+  --color-btn-secondary-stroke: hsl(var(--btn-secondary-stroke));
+  --color-btn-secondary-hover-bg: hsl(var(--btn-secondary-bg-hover));
+  --color-btn-secondary-hover-text: hsl(var(--btn-secondary-text-hover));
+  --color-btn-secondary-hover-stroke: hsl(var(--btn-secondary-stroke-hover));
+  --color-btn-secondary-focus-bg: var(--btn-secondary-bg-focus);
+  --color-btn-secondary-focus-text: hsl(var(--btn-secondary-text-focus));
+  --color-btn-secondary-focus-stroke: hsl(var(--btn-secondary-stroke-focus));
+  --color-btn-secondary-disabled-bg: hsl(var(--btn-secondary-bg-disabled));
+  --color-btn-secondary-disabled-text: hsl(var(--btn-secondary-text-disabled));
+  --color-btn-secondary-disabled-stroke: hsl(var(--btn-secondary-stroke-disabled));
+  --color-btn-tertiary-bg: hsl(var(--btn-tertiary-bg));
+  --color-btn-tertiary-text: hsl(var(--btn-tertiary-text));
+  --color-btn-tertiary-stroke: hsl(var(--btn-tertiary-stroke));
+  --color-btn-tertiary-hover-bg: hsl(var(--btn-tertiary-bg-hover));
+  --color-btn-tertiary-hover-text: hsl(var(--btn-tertiary-text-hover));
+  --color-btn-tertiary-hover-stroke: hsl(var(--btn-tertiary-stroke-hover));
+  --color-btn-tertiary-focus-bg: hsl(var(--btn-tertiary-bg-focus));
+  --color-btn-tertiary-focus-text: hsl(var(--btn-tertiary-text-focus));
+  --color-btn-tertiary-focus-stroke: hsl(var(--btn-tertiary-stroke-focus));
+  --color-btn-tertiary-disabled-bg: hsl(var(--btn-tertiary-bg-disabled));
+  --color-btn-tertiary-disabled-text: hsl(var(--btn-tertiary-text-disabled));
+  --color-btn-tertiary-disabled-stroke: hsl(var(--btn-tertiary-stroke-disabled));
+  --color-field-bg: hsl(var(--input-bg));
+  --color-field-hover: hsl(var(--input-bg-hover));
+  --color-field-active: hsl(var(--input-bg-active));
+  --color-field-focus: hsl(var(--input-bg-focus));
+  --color-field-disabled: hsl(var(--input-bg-disabled));
+  --color-field-border: hsl(var(--input-border));
+  --color-field-border-active: hsl(var(--input-border-active));
+  --color-field-border-focus: hsl(var(--input-border-focus));
+  --color-field-border-disabled: hsl(var(--input-border-disabled));
+  --color-field-text: hsl(var(--input-text));
+  --color-field-text-placeholder: hsl(var(--input-text-placeholder));
+  --color-field-text-label: hsl(var(--input-text-title));
+  --color-field-text-disabled: hsl(var(--input-text-disabled));
+  --color-field-success-bg: hsl(var(--input-bg-success));
+  --color-field-success-border: hsl(var(--input-border-success));
+  --color-field-success-icon: hsl(var(--input-icon-success));
+  --color-field-success-text: hsl(var(--input-text-success));
+  --color-field-error-bg: hsl(var(--input-bg-error));
+  --color-field-error-border: hsl(var(--input-border-error));
+  --color-field-error-icon: hsl(var(--input-icon-error));
+  --color-field-error-text: hsl(var(--input-text-error));
+  --color-chart-grid: hsl(var(--chart-grid));
+  --color-chart-axis-text: hsl(var(--chart-axis-text));
+  --color-chart-stroke: hsl(var(--chart-stroke));
+  --color-chart-gradient-start: hsl(var(--chart-gradient-start));
+  --color-chart-gradient-end: hsl(var(--chart-gradient-end));
+  --color-chart-tooltip-bg: hsl(var(--chart-tooltip-bg));
+  --color-chart-tooltip-border: hsl(var(--chart-tooltip-border));
+  --color-chart-tooltip-text: hsl(var(--chart-tooltip-text));
+
+  /* Border radius — see --radius-base in :root below */
+  --radius: var(--radius-base);
+  --radius-sm: var(--radius-base);
+  --radius-md: var(--radius-base);
+  --radius-lg: var(--radius-base);
+
+  /* Animations */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-shimmer: shimmer 2.2s linear infinite;
+  --animate-toast-aurora: toast-aurora 12s ease-in-out infinite;
+}
+
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@keyframes routeFade {
+  0% { opacity: 0; transform: translateY(4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes toast-aurora {
+  0%, 100% { transform: translate3d(0,0,0) scale(1); }
+  50% { transform: translate3d(-15%, 10%, 0) scale(1.2); }
+}
+
+@layer base {
+  :root {
+    /* ===== BASE COLOR PALETTE ===== */
+    /* Primary Colors — FlowPOS brand purple (#7728EB) */
+    --color-purple: 264 83% 54%;
+    --color-purple-hover: 265 71% 38%;
+    --color-purple-glow: 267 96% 59%;
+
+    /* Secondary accent — FlowPOS brand pink */
+    --color-pink: 304 71% 69%;
+    --color-pink-hover: 304 33% 48%;
+
+    /* Neutral Colors - cool blue-grey scale (Stripe-style) */
+    --color-neutral-0: 0 0% 100%; /* Pure White — cards, surfaces */
+    --color-neutral-50: 214 24% 97%; /* Subtle surface (inputs, sidebar hover, muted) */
+    --color-neutral-100: 214 20% 93%; /* Light Gray */
+    --color-neutral-200: 214 22% 90%; /* Stroke Default */
+    --color-neutral-300: 215 14% 58%; /* Gray — placeholders, tertiary */
+    --color-neutral-400: 216 20% 34%; /* Dark Gray — secondary text */
+    --color-neutral-900: 222 30% 13%; /* Text Main */
+
+    /* Disabled/Tag Colors */
+    --color-disabled-bg: 249 41% 97%;
+    --color-disabled-text: 251 25% 83%;
+
+    /* Secondary Button Hover */
+    --color-secondary-btn-hover: 246 100% 98%;
+
+    /* Success Colors */
+    --color-success-bg: 161 100% 90%;
+    --color-success-text: 160 69% 45%;
+
+    /* Error Colors */
+    --color-error-bg: 4 100% 94%;
+    --color-error-text: 4 86% 60%;
+
+    /* Warning Colors */
+    --color-warning-bg: 48 96% 89%;
+    --color-warning-text: 32 95% 35%;
+
+    /* Info Colors */
+    --color-info-bg: 213 94% 94%;
+    --color-info-text: 217 91% 40%;
+
+    /* Order Status Colors (#F59E0B, #3B82F6, #8B5CF6, #F97316, #10B981, #EF4444) */
+    --color-order-pending: 38 92% 50%;
+    --color-order-confirmed: 217 91% 60%;
+    --color-order-processing: 258 90% 66%;
+    --color-order-onhold: 25 95% 53%;
+    --color-order-completed: 160 84% 39%;
+    --color-order-cancelled: 0 84% 60%;
+    --color-order-default: 220 9% 46%;
+
+    /* ===== SEMANTIC TOKENS ===== */
+    /* Backgrounds — subtle cool-grey canvas so white cards separate */
+    --background: 214 32% 97%;
+    --foreground: var(--color-neutral-900);
+
+    --card: var(--color-neutral-0);
+    --card-foreground: var(--color-neutral-900);
+
+    --popover: var(--color-neutral-0);
+    --popover-foreground: var(--color-neutral-900);
+
+    /* Primary */
+    --primary: var(--color-purple);
+    --primary-foreground: var(--color-neutral-0);
+    --primary-glow: var(--color-purple-glow);
+    /* Purple as TEXT — same as fills in light mode; dark mode overrides this
+       with a lighter purple because #7728EB is unreadable on dark surfaces */
+    --primary-text: var(--color-purple);
+
+    /* Secondary */
+    --secondary: var(--color-neutral-50);
+    --secondary-foreground: var(--color-neutral-900);
+
+    /* Muted */
+    --muted: var(--color-neutral-50);
+    --muted-foreground: var(--color-neutral-300);
+
+    /* Accent */
+    --accent: var(--color-neutral-50);
+    --accent-foreground: var(--color-neutral-900);
+
+    /* Success */
+    --success: var(--color-success-text);
+    --success-foreground: var(--color-neutral-0);
+
+    /* Destructive */
+    --destructive: var(--color-error-text);
+    --destructive-foreground: var(--color-neutral-0);
+
+    /* Borders */
+    --border: var(--color-neutral-200);
+    --input: var(--color-neutral-200);
+    --skeleton: var(--color-neutral-200);
+    --ring: var(--color-purple);
+
+    --radius-base: 0.375rem;
+
+    /* Shadows — subtle Stripe-style elevation. Cards keep their border and
+       add a faint drop shadow to lift off the grey canvas. */
+    --shadow-glow: 0 10px 40px -10px hsl(var(--color-purple) / 0.15);
+    --shadow-card: 0 1px 2px 0 hsl(222 30% 13% / 0.04),
+      0 1px 3px 0 hsl(222 30% 13% / 0.05);
+
+    /* ===== SIDEBAR ===== */
+    --sidebar-background: var(--color-neutral-0);
+    --sidebar-foreground: var(--color-neutral-900);
+    --sidebar-primary: var(--color-purple);
+    --sidebar-primary-foreground: var(--color-neutral-0);
+    --sidebar-accent: var(--color-neutral-50);
+    --sidebar-accent-foreground: var(--color-purple);
+    --sidebar-border: var(--color-neutral-200);
+    --sidebar-ring: var(--color-purple);
+
+    --sidebar-item-bg: transparent;
+    --sidebar-item-text: var(--color-neutral-900);
+    --sidebar-item-icon: var(--color-neutral-900);
+    --sidebar-item-hover-bg: var(--color-neutral-50);
+    --sidebar-item-active-bg: var(--color-neutral-50);
+    --sidebar-item-active-text: var(--color-purple);
+    --sidebar-item-active-icon: var(--color-purple);
+    --sidebar-section-label: var(--color-neutral-300);
+
+    /* ===== BUTTONS ===== */
+    /* Primary Button */
+    --btn-primary-bg: var(--color-purple);
+    --btn-primary-text: var(--color-neutral-0);
+    --btn-primary-stroke: var(--color-purple-hover);
+    --btn-primary-inner-shadow: var(--color-purple-glow);
+    --btn-primary-bg-hover: var(--color-purple-hover);
+    --btn-primary-text-hover: var(--color-neutral-0);
+    --btn-primary-bg-focus: var(--color-purple-hover);
+    --btn-primary-text-focus: var(--color-neutral-0);
+    --btn-primary-stroke-focus: var(--color-purple-glow);
+    --btn-primary-bg-disabled: var(--color-disabled-bg);
+    --btn-primary-text-disabled: var(--color-disabled-text);
+
+    /* Secondary Button */
+    --btn-secondary-bg: transparent;
+    --btn-secondary-text: var(--color-purple);
+    --btn-secondary-stroke: var(--color-purple);
+    --btn-secondary-bg-hover: var(--color-secondary-btn-hover);
+    --btn-secondary-text-hover: var(--color-purple);
+    --btn-secondary-stroke-hover: var(--color-purple);
+    --btn-secondary-bg-focus: transparent;
+    --btn-secondary-stroke-focus: var(--color-purple-glow);
+    --btn-secondary-text-focus: var(--color-purple-glow);
+    --btn-secondary-bg-disabled: var(--color-disabled-bg);
+    --btn-secondary-text-disabled: var(--color-disabled-text);
+    --btn-secondary-stroke-disabled: var(--color-disabled-bg);
+
+    /* Tertiary Button */
+    --btn-tertiary-bg: var(--color-neutral-0);
+    --btn-tertiary-text: var(--color-neutral-400);
+    --btn-tertiary-stroke: var(--color-neutral-200);
+    --btn-tertiary-bg-hover: var(--color-neutral-100);
+    --btn-tertiary-text-hover: var(--color-neutral-400);
+    --btn-tertiary-stroke-hover: var(--color-neutral-200);
+    --btn-tertiary-bg-focus: var(--color-neutral-0);
+    --btn-tertiary-text-focus: var(--color-neutral-400);
+    --btn-tertiary-stroke-focus: var(--color-purple-glow);
+    --btn-tertiary-bg-disabled: var(--color-disabled-bg);
+    --btn-tertiary-text-disabled: var(--color-disabled-text);
+    --btn-tertiary-stroke-disabled: var(--color-disabled-bg);
+
+    /* Icon Button */
+    --btn-icon-bg: var(--color-pink);
+    --btn-icon-text: var(--color-neutral-0);
+    --btn-icon-bg-hover: var(--color-pink-hover);
+    --btn-icon-text-hover: var(--color-neutral-0);
+    --btn-icon-bg-focus: var(--color-pink-hover);
+    --btn-icon-text-focus: var(--color-neutral-0);
+
+    /* Stats Tags */
+    --tag-primary: var(--color-purple);
+    --tag-primary-hover: var(--color-purple-hover);
+    --tag-secondary: var(--color-purple);
+    --tag-success: var(--color-success-bg);
+    --tag-success-text: var(--color-success-text);
+    --tag-destructive: var(--color-error-bg);
+    --tag-destructive-text: var(--color-error-text);
+    --tag-pink: var(--color-pink);
+    --tag-disabled: var(--color-disabled-bg);
+    --tag-product-bg: var(--color-neutral-50);
+    --tag-product-border: var(--color-purple-glow);
+    --tag-product-text: var(--color-purple-hover);
+
+    /* ===== INPUT FIELDS ===== */
+    /* White field surface so inputs pop off the grey canvas (Stripe-style) */
+    --input-bg: var(--color-neutral-0);
+    --input-bg-hover: var(--color-neutral-0);
+    --input-bg-active: var(--color-neutral-0);
+    --input-bg-focus: var(--color-neutral-0);
+    --input-bg-disabled: var(--color-disabled-bg);
+    --input-bg-success: var(--color-neutral-0);
+    --input-bg-error: var(--color-neutral-0);
+
+    --input-border: var(--color-neutral-200);
+    --input-border-active: var(--color-purple);
+    --input-border-focus: var(--color-purple);
+    --input-border-disabled: var(--color-disabled-bg);
+    --input-border-success: var(--color-success-text);
+    --input-border-error: var(--color-error-text);
+
+    /* Resting depth + a confident brand focus ring */
+    --shadow-input: 0 1px 2px 0 hsl(222 30% 13% / 0.05);
+    --input-shadow-focus: hsl(var(--color-purple) / 0.18);
+
+    --input-icon-success: var(--color-success-text);
+    --input-icon-error: var(--color-error-text);
+
+    --input-text-success: var(--color-success-text);
+    --input-text-error: var(--color-error-text);
+
+    /* Placeholder — lighter, airier than neutral-300 so hints read as hints,
+       not disabled text */
+    --input-text-placeholder: 215 16% 66%;
+    --input-text-title: var(--color-neutral-400);
+    --input-text: var(--color-neutral-900);
+    --input-text-disabled: var(--color-disabled-text);
+
+    /* ===== CHART COLORS (Light Mode) ===== */
+    --chart-grid: var(--color-neutral-200);
+    --chart-axis-text: var(--color-neutral-300);
+    --chart-stroke: var(--color-purple-glow);
+    --chart-gradient-start: var(--color-purple-glow);
+    --chart-gradient-start-opacity: 0.4;
+    --chart-gradient-end: var(--color-purple-glow);
+    --chart-gradient-end-opacity: 0;
+    --chart-tooltip-bg: var(--color-neutral-0);
+    --chart-tooltip-border: var(--color-neutral-200);
+    --chart-tooltip-text: var(--color-neutral-900);
+  }
+
+  .dark {
+    /* ===== DARK MODE BASE PALETTE ===== */
+    /* Primary Colors — FlowPOS brand purple, brightened for dark surfaces */
+    --color-purple: 264 83% 54%;
+    --color-purple-hover: 264 100% 65%;
+    --color-purple-glow: 267 96% 59%;
+    /* Purple for TEXT/ICONS on dark surfaces — brand #7728EB is only ~2.9:1
+       against the dark bg; this lavender reads at ~7.5:1 */
+    --color-purple-text: 265 92% 74%;
+
+    /* Secondary accent — FlowPOS brand pink */
+    --color-pink: 304 71% 69%;
+    --color-pink-hover: 304 33% 48%;
+
+    /* Dark Neutral Colors */
+    --color-neutral-0: 0 0% 100%; /* Pure White (for text) */
+    --color-neutral-50: 223 16% 9%; /* BG Main Dark */
+    --color-neutral-100: 216 31% 13%; /* BG White Dark */
+    --color-neutral-200: 216 32% 18%; /* Stroke Dark */
+    --color-neutral-250: 216 20% 20%; /* Input Border Dark */
+    --color-neutral-300: 219 17% 45%; /* Gray Dark */
+    --color-neutral-350: 216 14% 31%; /* Light Gray Dark */
+    --color-neutral-400: 222 13% 60%; /* Dark Gray Light */
+    --color-neutral-800: 219 32% 9%; /* Text Alternate Dark */
+    --color-neutral-900: 220 32% 93%; /* Text Main Dark */
+
+    /* Disabled Colors Dark */
+    --color-disabled-bg: 217 26% 17%;
+    --color-disabled-text: 224 9% 32%;
+
+    /* Secondary Button Hover Dark */
+    --color-secondary-btn-hover: 216 26% 20%;
+
+    /* Tertiary Button Colors Dark */
+    --color-tertiary-bg: 216 23% 16%;
+    --color-tertiary-bg-hover: 216 23% 21%;
+    --color-tertiary-bg-focus: 216 20% 20%;
+    --color-tertiary-stroke: 216 18% 25%;
+    --color-tertiary-stroke-hover: 217 18% 25%;
+
+    /* Success Colors Dark */
+    --color-success-bg: 216 22% 22%;
+    --color-success-text: 160 95% 64%;
+
+    /* Error Colors Dark */
+    --color-error-bg: 216 22% 22%;
+    --color-error-text: 4 100% 76%;
+
+    /* Input Text Dark */
+    --color-input-text: 195 25% 97%;
+
+    /* Warning Colors Dark */
+    --color-warning-bg: 32 60% 18%;
+    --color-warning-text: 48 90% 65%;
+
+    /* Info Colors Dark */
+    --color-info-bg: 213 60% 18%;
+    --color-info-text: 213 80% 65%;
+
+    /* Order Status Colors */
+    --color-order-pending: 38 92% 50%;
+    --color-order-confirmed: 217 91% 60%;
+    --color-order-processing: 258 90% 66%;
+    --color-order-onhold: 25 95% 53%;
+    --color-order-completed: 160 84% 39%;
+    --color-order-cancelled: 0 84% 60%;
+    --color-order-default: 220 9% 46%;
+
+    /* ===== SEMANTIC TOKENS ===== */
+    --background: var(--color-neutral-50);
+    --foreground: var(--color-neutral-900);
+
+    --card: var(--color-neutral-100);
+    --card-foreground: var(--color-neutral-900);
+
+    --popover: var(--color-neutral-50);
+    --popover-foreground: var(--color-neutral-900);
+
+    --primary: var(--color-purple);
+    --primary-foreground: var(--color-neutral-900);
+    --primary-glow: var(--color-purple-glow);
+    --primary-text: var(--color-purple-text);
+
+    --secondary: var(--color-neutral-100);
+    --secondary-foreground: var(--color-neutral-900);
+
+    --muted: var(--color-neutral-100);
+    --muted-foreground: var(--color-neutral-300);
+
+    --accent: var(--color-neutral-100);
+    --accent-foreground: var(--color-neutral-900);
+
+    --success: var(--color-success-text);
+    --success-foreground: var(--color-neutral-800);
+
+    --destructive: var(--color-error-text);
+    --destructive-foreground: var(--color-neutral-900);
+
+    --border: var(--color-neutral-200);
+    --input: var(--color-neutral-200);
+    --skeleton: var(--color-neutral-200);
+    --ring: var(--color-purple);
+
+    --shadow-glow: 0 10px 40px -10px hsl(var(--color-purple) / 0.3);
+    --shadow-card: 0 1px 2px 0 hsl(0 0% 0% / 0.3), 0 1px 3px 0 hsl(0 0% 0% / 0.4);
+
+    /* ===== SIDEBAR ===== */
+    --sidebar-background: var(--color-neutral-50);
+    --sidebar-foreground: var(--color-neutral-900);
+    --sidebar-primary: var(--color-purple);
+    --sidebar-primary-foreground: var(--color-neutral-900);
+    --sidebar-accent: var(--color-neutral-100);
+    --sidebar-accent-foreground: var(--color-purple-text);
+    --sidebar-border: var(--color-neutral-200);
+    --sidebar-ring: var(--color-purple);
+
+    --sidebar-item-bg: transparent;
+    --sidebar-item-text: var(--color-neutral-900);
+    --sidebar-item-icon: var(--color-neutral-900);
+    --sidebar-item-hover-bg: var(--color-neutral-100);
+    --sidebar-item-active-bg: var(--color-neutral-50);
+    --sidebar-item-active-text: var(--color-purple-text);
+    --sidebar-item-active-icon: var(--color-purple-text);
+    --sidebar-section-label: var(--color-neutral-300);
+
+    /* ===== BUTTONS ===== */
+    /* Primary Button */
+    --btn-primary-bg: var(--color-purple);
+    --btn-primary-text: var(--color-neutral-0);
+    --btn-primary-stroke: var(--color-purple-hover);
+    --btn-primary-inner-shadow: var(--color-purple-glow);
+    --btn-primary-bg-hover: var(--color-purple-hover);
+    --btn-primary-text-hover: var(--color-neutral-0);
+    --btn-primary-bg-focus: var(--color-purple-hover);
+    --btn-primary-text-focus: var(--color-neutral-0);
+    --btn-primary-stroke-focus: var(--color-purple-glow);
+    --btn-primary-bg-disabled: var(--color-disabled-bg);
+    --btn-primary-text-disabled: var(--color-disabled-text);
+
+    /* Secondary Button */
+    --btn-secondary-bg: transparent;
+    --btn-secondary-text: var(--color-neutral-0);
+    --btn-secondary-stroke: var(--color-neutral-0);
+    --btn-secondary-bg-hover: var(--color-secondary-btn-hover);
+    --btn-secondary-text-hover: var(--color-neutral-0);
+    --btn-secondary-stroke-hover: var(--color-neutral-0);
+    --btn-secondary-bg-focus: transparent;
+    --btn-secondary-stroke-focus: 0 0% 96%;
+    --btn-secondary-text-focus: 0 0% 96%;
+    --btn-secondary-bg-disabled: var(--color-disabled-bg);
+    --btn-secondary-text-disabled: var(--color-disabled-text);
+    --btn-secondary-stroke-disabled: var(--color-disabled-bg);
+
+    /* Tertiary Button */
+    --btn-tertiary-bg: var(--color-tertiary-bg);
+    --btn-tertiary-text: var(--color-neutral-0);
+    --btn-tertiary-stroke: var(--color-tertiary-stroke);
+    --btn-tertiary-bg-hover: var(--color-tertiary-bg-hover);
+    --btn-tertiary-text-hover: var(--color-neutral-0);
+    --btn-tertiary-stroke-hover: var(--color-tertiary-stroke-hover);
+    --btn-tertiary-bg-focus: var(--color-tertiary-bg-focus);
+    --btn-tertiary-text-focus: var(--color-neutral-0);
+    --btn-tertiary-stroke-focus: var(--color-purple-glow);
+    --btn-tertiary-bg-disabled: var(--color-disabled-bg);
+    --btn-tertiary-text-disabled: var(--color-disabled-text);
+    --btn-tertiary-stroke-disabled: var(--color-disabled-bg);
+
+    /* Icon Button */
+    --btn-icon-bg: var(--color-pink);
+    --btn-icon-text: var(--color-neutral-0);
+    --btn-icon-bg-hover: var(--color-pink-hover);
+    --btn-icon-text-hover: var(--color-neutral-0);
+    --btn-icon-bg-focus: var(--color-pink-hover);
+    --btn-icon-text-focus: var(--color-neutral-0);
+
+    /* Stats Tags */
+    --tag-primary: var(--color-purple);
+    --tag-primary-hover: var(--color-purple-hover);
+    --tag-secondary: var(--color-purple);
+    --tag-success: var(--color-success-bg);
+    --tag-success-text: var(--color-success-text);
+    --tag-destructive: var(--color-error-bg);
+    --tag-destructive-text: var(--color-error-text);
+    --tag-pink: var(--color-pink);
+    --tag-disabled: var(--color-disabled-bg);
+    --tag-product-bg: var(--color-neutral-50);
+    --tag-product-border: var(--color-purple-glow);
+    --tag-product-text: var(--color-purple-text);
+
+    /* ===== INPUT FIELDS ===== */
+    --input-bg: var(--color-neutral-50);
+    --input-bg-hover: var(--color-neutral-100);
+    --input-bg-active: var(--color-neutral-100);
+    --input-bg-focus: var(--color-neutral-100);
+    --input-bg-disabled: var(--color-disabled-bg);
+    --input-bg-success: var(--color-neutral-100);
+    --input-bg-error: var(--color-neutral-50);
+
+    --input-border: var(--color-neutral-250);
+    --input-border-active: var(--color-purple);
+    --input-border-focus: var(--color-purple-glow);
+    --input-border-disabled: var(--color-disabled-bg);
+    --input-border-success: var(--color-success-text);
+    --input-border-error: var(--color-error-text);
+
+    /* Resting depth + a visible brand focus ring on dark surfaces */
+    --shadow-input: 0 1px 2px 0 hsl(0 0% 0% / 0.25);
+    --input-shadow-focus: hsl(var(--color-purple-glow) / 0.35);
+
+    --input-icon-success: var(--color-success-text);
+    --input-icon-error: var(--color-error-text);
+
+    --input-text-success: var(--color-success-text);
+    --input-text-error: var(--color-error-text);
+
+    /* Cool-toned, dimmer than typed text but still readable (~5:1) */
+    --input-text-placeholder: 219 14% 54%;
+    --input-text-title: var(--color-neutral-900);
+    --input-text: var(--color-input-text);
+    --input-text-disabled: var(--color-disabled-text);
+
+    /* ===== CHART COLORS (Dark Mode) ===== */
+    --chart-grid: 216 18% 25%;
+    --chart-axis-text: 219 17% 45%;
+    --chart-stroke: var(--color-purple-glow);
+    --chart-gradient-start: var(--color-purple-glow);
+    --chart-gradient-start-opacity: 0.6;
+    --chart-gradient-end: var(--color-purple-glow);
+    --chart-gradient-end-opacity: 0;
+    --chart-tooltip-bg: var(--color-neutral-100);
+    --chart-tooltip-border: var(--color-neutral-200);
+    --chart-tooltip-text: var(--color-neutral-900);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01", "cv11";
+    letter-spacing: -0.01em;
+  }
+
+  /* Tabular numerals for metric / currency values */
+  .tabular-nums,
+  [data-tabular] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum", "cv11";
+  }
+
+  /* Editorial serif for hero headings (Fraunces opsz auto-scales optical size).
+     Opt-in via the .font-display class — don't force on every .text-heading-1
+     because metric values also use heading-1 and should stay sans + tabular. */
+  .font-display {
+    @apply font-serif;
+    font-optical-sizing: auto;
+    font-variation-settings:
+      "opsz" 144,
+      "SOFT" 50;
+    letter-spacing: -0.02em;
+  }
+}
+
+/**
+ * Text-only override for `text-primary`: dark mode uses a lighter, more
+ * readable purple for TEXT specifically (--primary-text), while
+ * `bg-primary` / `border-primary` keep resolving from --color-primary (the
+ * brand fill colour) via the @theme block above. `text-primary-foreground`
+ * is untouched and keeps resolving normally from --color-primary-foreground.
+ *
+ * Tailwind v4 has no separate textColor namespace like v3 did, and
+ * `@utility text-primary {...}` does not win against the utility Tailwind
+ * auto-generates from --color-primary in @theme (same name, same
+ * specificity, Tailwind's own layered utility wins). This plain,
+ * *unlayered* rule works instead: Tailwind wraps its generated utilities in
+ * `@layer utilities`, and per the CSS cascade layers spec, unlayered rules
+ * always beat layered ones regardless of source order or specificity.
+ * Verified directly against the compiled output before landing this.
+ */
+.text-primary {
+  color: hsl(var(--primary-text));
+}

@@ -1,0 +1,41 @@
+{
+  "name": "@flowpos/design-tokens",
+  "version": "0.2.0",
+  "description": "Flowpos color, typography, radius and animation tokens — as a single Tailwind v4 CSS entry point, plus optional raw JS values.",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./css": "./src/css/theme.css"
+  },
+  "files": [
+    "dist",
+    "src/css"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^4.0.0"
+  },
+  "dependencies": {
+    "@fontsource-variable/fraunces": "^5.2.9",
+    "@fontsource-variable/geist": "^5.2.8",
+    "@tailwindcss/typography": "^0.5.20",
+    "tw-animate-css": "^1.4.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.3.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.8.3"
+  }
+}
