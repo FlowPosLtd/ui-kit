@@ -1,0 +1,59 @@
+name: Publish packages
+
+# Runs on every push to main and can also be triggered manually. Each
+# package is only published if its current package.json version isn't
+# already on the registry, so pushing to main with no version bump is a
+# safe no-op — you don't need a tag convention, just bump the version and
+# push. Uses the repo's own GITHUB_TOKEN, so publishing works regardless of
+# who has org membership — anyone with push access to this repo can ship
+# a new version.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "packages/*/package.json"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [design-tokens, ui, apps-sdk]
+      # design-tokens must land before ui (which depends on it); running
+      # matrix jobs one-at-a-time keeps that order instead of racing them.
+      max-parallel: 1
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@flowposltd"
+
+      - name: Install workspace dependencies
+        run: npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish ${{ matrix.package }} if version is new
+        working-directory: packages/${{ matrix.package }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+
+          if npm view "$NAME@$VERSION" version >/dev/null 2>&1; then
+            echo "$NAME@$VERSION is already published — skipping."
+            exit 0
+          fi
+
+          echo "Publishing $NAME@$VERSION..."
+          npm run build
+          npm publish
