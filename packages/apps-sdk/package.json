@@ -1,8 +1,16 @@
 {
-  "name": "@flowpos/apps-sdk",
+  "name": "@flowposltd/apps-sdk",
   "version": "0.1.1",
   "description": "Runtime bridge for apps installed into tenant-dashboard: handshake, theme sync, auto-resize and auth handoff over postMessage.",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FlowPosLtd/ui-kit.git",
+    "directory": "packages/apps-sdk"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

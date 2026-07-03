@@ -1,5 +1,5 @@
 {
-  "name": "@flowpos/playground",
+  "name": "@flowposltd/playground",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,8 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@flowpos/design-tokens": "0.2.0",
-    "@flowpos/ui": "0.2.0",
+    "@flowposltd/design-tokens": "0.2.0",
+    "@flowposltd/ui": "0.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

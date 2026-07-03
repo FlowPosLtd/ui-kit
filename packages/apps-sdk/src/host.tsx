@@ -82,7 +82,7 @@ export function useInstalledAppFrame(
 
   // Broadcast live theme toggles (e.g. the user flips dark mode) after the
   // initial handshake — the embedded app re-applies the `.dark` class, which
-  // resolves correctly because it loaded the same @flowpos/design-tokens CSS.
+  // resolves correctly because it loaded the same @flowposltd/design-tokens CSS.
   React.useEffect(() => {
     if (!isReady) return;
     const themeMessage: HostToAppMessage = {

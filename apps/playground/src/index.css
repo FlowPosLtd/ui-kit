@@ -1,10 +1,10 @@
-@import "@flowpos/design-tokens/css";
+@import "@flowposltd/design-tokens/css";
 
-/* @flowpos/ui ships compiled JS with classNames baked in as string literals,
+/* @flowposltd/ui ships compiled JS with classNames baked in as string literals,
    living in packages/ui/dist — Tailwind v4 doesn't scan node_modules by
    default, so it needs to be told explicitly or those components render
    unstyled. Path is relative to *this file's own directory* (src/), not the
    package root — every real consumer needs the equivalent of this line
-   pointed at wherever @flowpos/ui actually resolves in their node_modules
-   (usually just "./node_modules/@flowpos/ui/dist/**\/*.js"). */
+   pointed at wherever @flowposltd/ui actually resolves in their node_modules
+   (usually just "./node_modules/@flowposltd/ui/dist/**\/*.js"). */
 @source "../../../packages/ui/dist/**/*.js";

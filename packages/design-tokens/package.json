@@ -1,8 +1,16 @@
 {
-  "name": "@flowpos/design-tokens",
+  "name": "@flowposltd/design-tokens",
   "version": "0.2.0",
   "description": "Flowpos color, typography, radius and animation tokens — as a single Tailwind v4 CSS entry point, plus optional raw JS values.",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FlowPosLtd/ui-kit.git",
+    "directory": "packages/design-tokens"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "sideEffects": [
     "*.css"
   ],

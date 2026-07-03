@@ -34,7 +34,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@flowpos/ui";
+} from "@flowposltd/ui";
 
 const BUTTON_VARIANTS = [
   "default",
@@ -68,7 +68,7 @@ export function App() {
           <div className="mx-auto max-w-4xl space-y-section">
             <header className="flex items-center justify-between">
               <div>
-                <h1 className="text-heading-1 font-display">@flowpos/ui playground</h1>
+                <h1 className="text-heading-1 font-display">@flowposltd/ui playground</h1>
                 <p className="text-body-2 text-content-secondary">
                   Sanity-check the ported components against the design tokens.
                 </p>

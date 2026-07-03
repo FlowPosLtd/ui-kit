@@ -15,9 +15,9 @@ token formats going forward.
 
 | Package | Consumed by | What it's for |
 |---|---|---|
-| [`@flowpos/design-tokens`](./packages/design-tokens) | Everyone | A single Tailwind v4 CSS entry point (colors, typography, radius, animation) — plus the same values as optional raw JS. |
-| [`@flowpos/ui`](./packages/ui) | Everyone | The React component library (Button, Card, Dialog, etc.) built on those tokens. |
-| [`@flowpos/apps-sdk`](./packages/apps-sdk) | tenant-dashboard (`/host`) + app devs (`/app`) | The iframe runtime bridge: handshake, theme sync, auto-resize, auth handoff. |
+| [`@flowposltd/design-tokens`](./packages/design-tokens) | Everyone | A single Tailwind v4 CSS entry point (colors, typography, radius, animation) — plus the same values as optional raw JS. |
+| [`@flowposltd/ui`](./packages/ui) | Everyone | The React component library (Button, Card, Dialog, etc.) built on those tokens. |
+| [`@flowposltd/apps-sdk`](./packages/apps-sdk) | tenant-dashboard (`/host`) + app devs (`/app`) | The iframe runtime bridge: handshake, theme sync, auto-resize, auth handoff. |
 
 ## Running things
 
@@ -31,8 +31,8 @@ To actually **see** the components rendered in a browser, there's a small
 playground app at [`apps/playground`](./apps/playground):
 
 ```bash
-npm run build -w @flowpos/design-tokens -w @flowpos/ui   # build the libs first
-npm run dev -w @flowpos/playground                        # http://localhost:5300
+npm run build -w @flowposltd/design-tokens -w @flowposltd/ui   # build the libs first
+npm run dev -w @flowposltd/playground                        # http://localhost:5300
 ```
 
 It renders every ported component (all button/badge variants, form controls,
@@ -45,12 +45,12 @@ other; ask if you want that scaffolded too.
 ## Why three packages, not one
 
 - **`design-tokens` has no React dependency.** An app doesn't have to use
-  `@flowpos/ui` at all to look correct — as long as it imports the one CSS
+  `@flowposltd/ui` at all to look correct — as long as it imports the one CSS
   file, its own custom markup already inherits the right colors and type
   scale via Tailwind classes.
 - **`ui` depends on `design-tokens`, not the other way around.** Components
   are just Tailwind class names; they resolve correctly only once the
-  consumer has `@flowpos/design-tokens/css` imported somewhere.
+  consumer has `@flowposltd/design-tokens/css` imported somewhere.
 - **`apps-sdk` is unrelated to the other two.** It solves a different
   problem — getting an iframe on a different origin to behave like part of
   the page — and has separate entry points for the two sides of that
@@ -61,7 +61,7 @@ other; ask if you want that scaffolded too.
 ## Quickstart for someone building an installable app
 
 ```bash
-npm install @flowpos/design-tokens @flowpos/ui @flowpos/apps-sdk
+npm install @flowposltd/design-tokens @flowposltd/ui @flowposltd/apps-sdk
 ```
 
 **1. Make sure you're on Tailwind v4** with `@tailwindcss/vite` (or
@@ -72,7 +72,7 @@ set that up for you, it just plugs into it.
 *before* your own styles:
 
 ```css
-@import "@flowpos/design-tokens/css";
+@import "@flowposltd/design-tokens/css";
 
 /* your own CSS/Tailwind utilities below */
 ```
@@ -84,19 +84,19 @@ the light/dark CSS variable values — you do not need your own
 `@import "tailwindcss"` anywhere, this replaces it. Do **not** wrap this
 import in `@layer` or otherwise defer it — it needs to load as-is.
 
-**3. Build your UI** with `@flowpos/ui` components, or your own markup using
+**3. Build your UI** with `@flowposltd/ui` components, or your own markup using
 the same Tailwind classes (`bg-primary`, `text-content-secondary`,
 `text-heading-2`, etc.) — either way it now matches tenant-dashboard.
 
-> **Important:** if you use `@flowpos/ui` components, tell Tailwind to scan
+> **Important:** if you use `@flowposltd/ui` components, tell Tailwind to scan
 > the package's compiled output, not just your own `src` — add this to the
 > *same* CSS file, relative to that file's own directory:
 >
 > ```css
-> @source "./node_modules/@flowpos/ui/dist/**/*.js";
+> @source "./node_modules/@flowposltd/ui/dist/**/*.js";
 > ```
 >
-> Tailwind v4 doesn't scan `node_modules` by default, and `@flowpos/ui`'s
+> Tailwind v4 doesn't scan `node_modules` by default, and `@flowposltd/ui`'s
 > classNames live in its compiled JS, not your source — without this line the
 > components render completely unstyled. Get the relative path wrong (e.g.
 > off by one directory level) and you get the same silent failure with no
@@ -107,7 +107,7 @@ the same Tailwind classes (`bg-primary`, `text-content-secondary`,
 **4. Complete the embed handshake** near your app's root:
 
 ```tsx
-import { useFlowposApp } from "@flowpos/apps-sdk/app";
+import { useFlowposApp } from "@flowposltd/apps-sdk/app";
 
 function App() {
   const { isEmbedded, isReady, context, theme } = useFlowposApp({
@@ -136,7 +136,7 @@ unless you pass `autoResize: false`.
 ## Integrating on the tenant-dashboard (host) side
 
 ```tsx
-import { InstalledAppFrame } from "@flowpos/apps-sdk/host";
+import { InstalledAppFrame } from "@flowposltd/apps-sdk/host";
 
 <InstalledAppFrame
   src={installation.app.embed_url}
@@ -185,7 +185,7 @@ flowpos-ui/
     apps-sdk/         protocol.ts (shared), app.ts (embedded side),
                       host.tsx (tenant-dashboard side)
   apps/
-    playground/       Vite app that renders every @flowpos/ui component —
+    playground/       Vite app that renders every @flowposltd/ui component —
                       the reference example for wiring Tailwind v4 up
                       correctly (vite.config.ts, src/index.css)
 ```
@@ -209,7 +209,7 @@ find . -type d -name react -path "*/node_modules/react" -not -path "*/node_modul
 — this should print exactly one path (the workspace root) after a fresh
 `npm install`.
 
-## Adding a component that isn't in `@flowpos/ui` yet
+## Adding a component that isn't in `@flowposltd/ui` yet
 
 Only a core subset was ported initially (Button, Badge, Card, Input, Label,
 Separator, Skeleton, Avatar, Tabs, Alert, Dialog, Checkbox, Switch,
@@ -232,9 +232,9 @@ Textarea, Tooltip). To add another one from tenant-dashboard's
    property, separate from the legacy `transform` property
    `tw-animate-css`'s slide animation still uses — the two stack additively
    under v4 instead of composing like they did under v3, so the component
-   visibly slides in from off-screen. This already bit `@flowpos/ui`'s own
+   visibly slides in from off-screen. This already bit `@flowposltd/ui`'s own
    `dialog.tsx` once; see the comment there for the full explanation.
-7. `npm run build -w @flowpos/ui`.
+7. `npm run build -w @flowposltd/ui`.
 
 ## Known deliberate deviation from tenant-dashboard's current code
 
