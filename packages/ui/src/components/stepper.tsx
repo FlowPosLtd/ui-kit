@@ -38,7 +38,7 @@ const Stepper = React.forwardRef<HTMLOListElement, StepperProps>(
   ) => {
     const isHorizontal = orientation === "horizontal";
 
-    return (
+    const list = (
       <ol
         ref={ref}
         className={cn(
@@ -128,6 +128,14 @@ const Stepper = React.forwardRef<HTMLOListElement, StepperProps>(
           );
         })}
       </ol>
+    );
+
+    // On mobile, min-w-max can push the ol wider than the viewport — scope the
+    // overflow to a scroll container instead of letting it blow out the page.
+    return isHorizontal ? (
+      <div className="overflow-x-auto">{list}</div>
+    ) : (
+      list
     );
   },
 );
