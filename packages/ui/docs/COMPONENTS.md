@@ -50,10 +50,15 @@ function Example() {
       <Button variant="secondary">Secondary</Button>
       <Button variant="destructive" size="sm">Delete</Button>
       <Button loading>Saving…</Button>
+      <Button asChild variant="secondary">
+        <a href="/orders">Renders an &lt;a&gt;, not a &lt;button&gt;</a>
+      </Button>
     </div>
   );
 }
 ```
+
+> **`asChild` note:** with `asChild`, `loading`/`icon`/`iconPosition` are ignored — Radix `Slot` requires exactly one child element to clone props onto, so `asChild` renders `children` directly instead of the loading-spinner/`<span>` wrapper the non-`asChild` path uses. An `asChild` button (usually wrapping a router `Link`) has no button element of its own to overlay a spinner on anyway.
 
 ---
 
@@ -495,22 +500,19 @@ function Example() {
 
 ## DatePicker
 
-Single-date picker — a button trigger showing the formatted date, opening a portal-rendered popover with a native `date`/`datetime-local` input and Clear/Apply actions. Same visual language as `DateRangePicker`; the single-value sibling of it. *(Net-new — no equivalent exists in tenant-dashboard.)*
+Single-date field — a plain native `<input type="date">` (or `datetime-local` with `includeTime`) styled to match the rest of the field system. Clicking anywhere in the field opens the browser's own native date picker directly (via `showPicker()`), the same convention every native date input follows — no custom popover, no separate Apply/Clear step. *(Net-new — no equivalent exists in tenant-dashboard.)*
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `string \| null` | required | Selected date as an ISO-local string (`YYYY-MM-DD`, or `YYYY-MM-DDTHH:mm` if `includeTime`). |
-| `onChange` | `(date: string) => void` | required | Called with the draft value when "Apply" is clicked. |
-| `onClear` | `() => void` | `undefined` | Called when "Clear" is clicked. |
-| `placeholder` | `string` | `"Select date"` | Trigger text when no date is set. |
-| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Trigger height. |
-| `disabled` | `boolean` | `false` | Disables the trigger. |
+| `onChange` | `(date: string) => void` | required | Called on every native input change. |
+| `placeholder` | `string` | `undefined` | Native input placeholder (browsers largely ignore this for `type="date"`, shown for `datetime-local` fallback rendering). |
+| `size` | `"sm" \| "md" \| "lg"` | `"sm"` | Field height. |
+| `disabled` | `boolean` | `false` | Disables the field. |
 | `className` | `string` | `undefined` | Extra className on the outer wrapper. |
-| `align` | `"start" \| "end"` | `"start"` | Horizontal alignment of the popover relative to the trigger. |
-| `labelClassName` | `string` | `undefined` | Extra className on the formatted-date label. |
-| `includeTime` | `boolean` | `false` | Uses a `datetime-local` input and includes time in the display. |
-| `min` | `string` | `undefined` | Native `min` constraint on the date input. |
-| `max` | `string` | `undefined` | Native `max` constraint on the date input. |
+| `includeTime` | `boolean` | `false` | Uses a `datetime-local` input instead of `date`. |
+| `min` | `string` | `undefined` | Native `min` constraint. |
+| `max` | `string` | `undefined` | Native `max` constraint. |
 
 ```tsx
 import { DatePicker } from "@flowposltd/ui";
@@ -518,9 +520,11 @@ import { useState } from "react";
 
 function Example() {
   const [date, setDate] = useState<string | null>(null);
-  return <DatePicker value={date} onChange={setDate} onClear={() => setDate(null)} />;
+  return <DatePicker value={date} onChange={setDate} />;
 }
 ```
+
+Clearing is handled by the browser's own native "x" affordance on the date input (present in Chrome/Edge; Safari/Firefox don't render one — clear via keyboard or re-typing) — there's no separate `onClear` prop.
 
 ---
 
@@ -1266,17 +1270,17 @@ function OrdersToolbar() {
 
 ## Stepper
 
-A horizontal or vertical progress stepper showing done/active/upcoming steps, with optional click-to-navigate behavior.
+A horizontal or vertical progress stepper showing done/active/upcoming steps, with optional click-to-navigate behavior. Ported 1:1 from tenant-dashboard's order-flow stepper (`src/components/shared/StepTabs.tsx`): a filled green circle with a check icon for done steps, a primary circle with a ring/shadow highlight for the active step, a muted numbered circle for upcoming steps, and the label centered underneath each circle.
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `steps` | `StepperStep[]` — `{ label: string; description?: string }` | required | Steps to render, in order |
+| `steps` | `StepperStep[]` — `{ label: string; description?: string }` | required | Steps to render, in order. `description` is optional and not part of tenant-dashboard's version — omit it to match the reference UI exactly (single-line title only). |
 | `currentStep` | `number` | required | 0-indexed active step; steps before it are "done", it is "active", the rest are "upcoming" |
-| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Layout direction |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Layout direction. Horizontal matches tenant-dashboard's `StepTabs` exactly; vertical is a ui-kit-only extension using the same visual language. |
 | `onStepClick` | `(index: number) => void` | — | Called when a clickable step's circle/label is clicked. **Omit to render a static, non-interactive stepper** — no step is clickable when this is undefined |
 | `isStepClickable` | `(index: number) => boolean` | — | Overrides which steps are clickable. Defaults to `i <= currentStep` (done + current steps clickable), matching tenant-dashboard's `StepTabs` |
 
-**Click behavior:** a step is clickable only when `onStepClick` is provided AND (`isStepClickable(i)` if given, else `i <= currentStep`). Non-clickable step buttons render `disabled`. Done steps (`i < currentStep`) render a "✓"; others render their 1-indexed number.
+**Click behavior:** a step is clickable only when `onStepClick` is provided AND (`isStepClickable(i)` if given, else `i <= currentStep`). Non-clickable step buttons render `disabled`. Done steps (`i < currentStep`) render a lucide `Check` icon on a green (`bg-content-success`) circle; the active step gets a primary-colored circle with a ring/shadow; others render their 1-indexed number on a muted circle.
 
 ```tsx
 import { Stepper } from "@flowposltd/ui";

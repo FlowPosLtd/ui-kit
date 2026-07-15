@@ -61,6 +61,22 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const Comp = asChild ? Slot : "button";
 
+    if (asChild) {
+      // Slot requires exactly one child element to clone props onto — it can't
+      // merge onto the loading-spinner + <span> wrapper below, so asChild bypasses
+      // that structure entirely and renders `children` (e.g. a <Link>) directly.
+      return (
+        <Comp
+          className={cn(buttonVariants({ variant, size, className }), "relative")}
+          ref={ref}
+          disabled={disabled || loading}
+          {...props}
+        >
+          {children}
+        </Comp>
+      );
+    }
+
     const content = children || (
       <>
         {icon && iconPosition === "left" && icon}

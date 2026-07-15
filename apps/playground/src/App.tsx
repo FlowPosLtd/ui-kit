@@ -198,6 +198,9 @@ export function App() {
                   </Button>
                 ))}
                 <Button loading>Loading</Button>
+                <Button asChild variant="secondary">
+                  <a href="#asChild-test">asChild (renders an &lt;a&gt;)</a>
+                </Button>
               </CardContent>
             </Card>
 
@@ -475,7 +478,7 @@ export function App() {
                 <CardTitle>Date picker, Date range, Slider, OTP, Phone</CardTitle>
               </CardHeader>
               <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-section max-w-2xl">
-                <DatePicker value={singleDate} onChange={setSingleDate} onClear={() => setSingleDate(null)} />
+                <DatePicker value={singleDate} onChange={setSingleDate} />
 
                 <DateRangePicker value={dateRange} onChange={setDateRange} onClear={() => setDateRange(null)} />
 

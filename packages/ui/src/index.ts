@@ -146,7 +146,7 @@ export {
   type MultiSelectProps,
 } from "./components/multiselect";
 export { DateRangePicker, type DateRange } from "./components/date-range-picker";
-export { DatePicker } from "./components/date-picker";
+export { DatePicker, type DatePickerProps } from "./components/date-picker";
 export {
   Combobox,
   type ComboboxOption,

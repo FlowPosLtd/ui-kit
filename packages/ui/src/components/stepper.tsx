@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Check } from "lucide-react";
 import { cn } from "../lib/cn";
 
 export interface StepperStep {
@@ -18,9 +19,9 @@ export interface StepperProps extends React.HTMLAttributes<HTMLOListElement> {
 }
 
 /**
- * Visual language ported from the order/onboarding stepper in tenant-dashboard
- * (OnboardingLayout.tsx): bg-primary/border-primary active circle, bg-primary/90
- * done circle, bg-white/60 border-border/60 upcoming circle, ✓ for done steps.
+ * Ported 1:1 from tenant-dashboard's order-flow stepper (src/components/shared/StepTabs.tsx):
+ * green check circle for done steps, ring/shadow highlighted primary circle for the
+ * active step, muted numbered circle for upcoming steps, label centered underneath.
  */
 const Stepper = React.forwardRef<HTMLOListElement, StepperProps>(
   (
@@ -42,7 +43,9 @@ const Stepper = React.forwardRef<HTMLOListElement, StepperProps>(
         ref={ref}
         className={cn(
           "flex",
-          isHorizontal ? "items-center gap-inner" : "flex-col",
+          isHorizontal
+            ? "items-start min-w-max px-1 pt-2 pb-1"
+            : "flex-col",
           className,
         )}
         {...props}
@@ -58,61 +61,69 @@ const Stepper = React.forwardRef<HTMLOListElement, StepperProps>(
             <li
               key={step.label}
               className={cn(
-                "flex",
-                isHorizontal ? "items-center gap-inner flex-1" : "flex-row items-start gap-inner",
+                "flex items-start",
+                isHorizontal
+                  ? "flex-1 min-w-0 first:flex-initial"
+                  : "flex-row flex-1 gap-inner",
                 !isHorizontal && !isLast && "pb-inner",
               )}
             >
-              <div
+              <button
+                type="button"
+                onClick={() => clickable && onStepClick?.(i)}
+                disabled={!clickable}
                 className={cn(
-                  "flex",
+                  "group flex select-none shrink-0",
                   isHorizontal
-                    ? "items-center flex-1"
-                    : "flex-col items-center self-stretch",
+                    ? "flex-col items-center gap-1"
+                    : "flex-row items-center gap-inner",
+                  clickable ? "cursor-pointer" : "cursor-default",
                 )}
               >
-                <button
-                  type="button"
-                  disabled={!clickable}
-                  onClick={clickable ? () => onStepClick?.(i) : undefined}
-                  className={cn(
-                    "flex items-center justify-center w-7 h-7 shrink-0 rounded-full text-body-3 font-semibold border transition-colors",
-                    isActive && "bg-primary text-primary-foreground border-primary",
-                    isDone && "bg-primary/90 text-primary-foreground border-primary/90",
-                    !isActive && !isDone && "bg-white/60 text-foreground/50 border-border/60",
-                    clickable
-                      ? "cursor-pointer hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                      : "disabled:cursor-default",
-                  )}
-                >
-                  {isDone ? "✓" : i + 1}
-                </button>
-                {!isLast && (
-                  <div
-                    className={cn(
-                      "transition-colors",
-                      isHorizontal ? "flex-1 h-px ml-inner" : "w-px flex-1 my-1",
-                      isDone ? "bg-primary/60" : "bg-border",
-                    )}
-                  />
-                )}
-              </div>
-
-              <div className={cn(!isHorizontal && !isLast && "pb-section")}>
                 <span
                   className={cn(
-                    "text-body-2 font-medium transition-colors",
-                    isActive ? "text-content-primary" : "text-foreground/50",
-                    clickable && "cursor-pointer",
+                    "relative flex items-center justify-center w-7 h-7 shrink-0 rounded-full text-body-3 font-semibold transition-all duration-200",
+                    isActive &&
+                      "bg-primary text-primary-foreground shadow-[0_0_0_4px_hsl(var(--primary)/0.12)] ring-1 ring-primary",
+                    isDone && "bg-content-success text-white group-hover:scale-105",
+                    !isActive && !isDone && "bg-muted text-content-tertiary border border-border",
                   )}
-                  onClick={clickable ? () => onStepClick?.(i) : undefined}
+                >
+                  {isDone ? <Check className="w-3.5 h-3.5" strokeWidth={3} /> : i + 1}
+                </span>
+
+                <span
+                  className={cn(
+                    "text-body-3 font-medium transition-colors px-1",
+                    isHorizontal ? "whitespace-nowrap" : "text-left",
+                    isActive
+                      ? "text-content-primary"
+                      : isDone
+                        ? "text-content-secondary group-hover:text-content-primary"
+                        : "text-content-tertiary",
+                  )}
                 >
                   {step.label}
+                  {step.description && (
+                    <span className="block text-content-tertiary font-normal">
+                      {step.description}
+                    </span>
+                  )}
                 </span>
-                {step.description && (
-                  <p className="text-body-3 text-content-tertiary">{step.description}</p>
-                )}
-              </div>
+              </button>
+
+              {!isLast && (
+                <div
+                  aria-hidden
+                  className={cn(
+                    "transition-colors duration-300",
+                    isHorizontal
+                      ? "flex-1 h-px mx-2 mt-[14px] min-w-[24px]"
+                      : "w-px flex-1 my-1 ml-[13px]",
+                    isDone ? "bg-content-success" : "bg-border",
+                  )}
+                />
+              )}
             </li>
           );
         })}
