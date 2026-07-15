@@ -1,8 +1,9 @@
 import * as React from "react";
 import { AsYouType, getCountryCallingCode } from "libphonenumber-js";
-import { AlertCircle, ChevronsUpDown } from "lucide-react";
+import { ChevronsUpDown } from "lucide-react";
 import { cn } from "../lib/cn";
 import { PHONE_INPUT_STYLES } from "../styles/input.styles";
+import { ErrorIcon } from "../icons/ErrorIcon";
 import {
   Popover,
   PopoverContent,
@@ -184,7 +185,7 @@ const PhoneInput = React.forwardRef<HTMLInputElement, PhoneInputProps>(
 
           {error && (
             <div className="pr-grid shrink-0">
-              <AlertCircle className="h-5 w-5 text-field-error-icon" />
+              <ErrorIcon size={20} className="text-field-error-icon" />
             </div>
           )}
         </div>

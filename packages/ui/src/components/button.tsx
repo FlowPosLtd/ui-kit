@@ -61,19 +61,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const Comp = asChild ? Slot : "button";
 
-    if (asChild) {
-      return (
-        <Comp
-          className={cn(buttonVariants({ variant, size, className }), "relative")}
-          ref={ref}
-          disabled={disabled || loading}
-          {...props}
-        >
-          {children}
-        </Comp>
-      );
-    }
-
     const content = children || (
       <>
         {icon && iconPosition === "left" && icon}

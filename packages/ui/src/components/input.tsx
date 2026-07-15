@@ -1,8 +1,9 @@
 import * as React from "react";
-import { Eye, EyeOff, Check, AlertCircle } from "lucide-react";
+import { Eye, EyeOff, Check } from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/cn";
 import { INPUT_STYLES } from "../styles/input.styles";
+import { ErrorIcon } from "../icons/ErrorIcon";
 
 const inputVariants = cva(INPUT_STYLES.base, {
   variants: {
@@ -109,7 +110,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               <Check className="h-5 w-5 text-field-success-icon" />
             )}
             {hasErrorIcon && (
-              <AlertCircle className="h-5 w-5 text-field-error-icon" />
+              <ErrorIcon size={20} className="text-field-error-icon" />
             )}
             {isPassword && (
               <button

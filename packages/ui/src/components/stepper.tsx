@@ -11,6 +11,10 @@ export interface StepperProps extends React.HTMLAttributes<HTMLOListElement> {
   /** 0-indexed. Steps before this are done, this one is active, the rest are upcoming. */
   currentStep: number;
   orientation?: "horizontal" | "vertical";
+  /** Called with the step index when a clickable step is activated. Omit to render a static (non-interactive) stepper. */
+  onStepClick?: (index: number) => void;
+  /** Override which steps can be clicked. Defaults to done + current steps (i <= currentStep), matching tenant-dashboard's StepTabs. */
+  isStepClickable?: (index: number) => boolean;
 }
 
 /**
@@ -19,7 +23,18 @@ export interface StepperProps extends React.HTMLAttributes<HTMLOListElement> {
  * done circle, bg-white/60 border-border/60 upcoming circle, ✓ for done steps.
  */
 const Stepper = React.forwardRef<HTMLOListElement, StepperProps>(
-  ({ steps, currentStep, orientation = "horizontal", className, ...props }, ref) => {
+  (
+    {
+      steps,
+      currentStep,
+      orientation = "horizontal",
+      onStepClick,
+      isStepClickable,
+      className,
+      ...props
+    },
+    ref,
+  ) => {
     const isHorizontal = orientation === "horizontal";
 
     return (
@@ -36,6 +51,8 @@ const Stepper = React.forwardRef<HTMLOListElement, StepperProps>(
           const isDone = i < currentStep;
           const isActive = i === currentStep;
           const isLast = i === steps.length - 1;
+          const clickable =
+            !!onStepClick && (isStepClickable ? isStepClickable(i) : i <= currentStep);
 
           return (
             <li
@@ -46,17 +63,30 @@ const Stepper = React.forwardRef<HTMLOListElement, StepperProps>(
                 !isHorizontal && !isLast && "pb-inner",
               )}
             >
-              <div className={cn("flex", isHorizontal ? "items-center" : "flex-col items-center self-stretch")}>
-                <div
+              <div
+                className={cn(
+                  "flex",
+                  isHorizontal
+                    ? "items-center flex-1"
+                    : "flex-col items-center self-stretch",
+                )}
+              >
+                <button
+                  type="button"
+                  disabled={!clickable}
+                  onClick={clickable ? () => onStepClick?.(i) : undefined}
                   className={cn(
                     "flex items-center justify-center w-7 h-7 shrink-0 rounded-full text-body-3 font-semibold border transition-colors",
                     isActive && "bg-primary text-primary-foreground border-primary",
                     isDone && "bg-primary/90 text-primary-foreground border-primary/90",
                     !isActive && !isDone && "bg-white/60 text-foreground/50 border-border/60",
+                    clickable
+                      ? "cursor-pointer hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      : "disabled:cursor-default",
                   )}
                 >
                   {isDone ? "✓" : i + 1}
-                </div>
+                </button>
                 {!isLast && (
                   <div
                     className={cn(
@@ -73,7 +103,9 @@ const Stepper = React.forwardRef<HTMLOListElement, StepperProps>(
                   className={cn(
                     "text-body-2 font-medium transition-colors",
                     isActive ? "text-content-primary" : "text-foreground/50",
+                    clickable && "cursor-pointer",
                   )}
+                  onClick={clickable ? () => onStepClick?.(i) : undefined}
                 >
                   {step.label}
                 </span>

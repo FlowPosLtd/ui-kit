@@ -28,6 +28,8 @@ import {
   CardHeader,
   CardTitle,
   Checkbox,
+  Combobox,
+  DatePicker,
   DateRangePicker,
   Dialog,
   DialogContent,
@@ -77,6 +79,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  TableToolbar,
+  TableToolbarActions,
+  TableToolbarFilters,
   Tabs,
   TabsContent,
   TabsList,
@@ -150,7 +155,11 @@ export function App() {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [selectedFruit, setSelectedFruit] = useState("apple");
   const [multiSelected, setMultiSelected] = useState<(string | number)[]>(["burger"]);
+  const [comboSelected, setComboSelected] = useState<string | number | null>("burger");
   const [dateRange, setDateRange] = useState<{ from: string; to: string } | null>(null);
+  const [singleDate, setSingleDate] = useState<string | null>(null);
+  const [stepperStep, setStepperStep] = useState(2);
+  const [tableSearch, setTableSearch] = useState("");
   const [sliderValue, setSliderValue] = useState(40);
   const [otp, setOtp] = useState("");
   const [phone, setPhone] = useState("");
@@ -290,7 +299,30 @@ export function App() {
                   Order listing with payment / status / source pills.
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-0">
+                <TableToolbar>
+                  <TableToolbarFilters>
+                    <Input
+                      placeholder="Search order"
+                      value={tableSearch}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTableSearch(e.target.value)}
+                      className="max-w-[220px]"
+                    />
+                    <Select defaultValue="all">
+                      <SelectTrigger className="w-[160px]">
+                        <SelectValue placeholder="All Status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Status</SelectItem>
+                        <SelectItem value="paid">Paid</SelectItem>
+                        <SelectItem value="pending">Pending</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </TableToolbarFilters>
+                  <TableToolbarActions>
+                    <Button variant="tertiary" size="sm">Manage Columns</Button>
+                  </TableToolbarActions>
+                </TableToolbar>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -380,17 +412,31 @@ export function App() {
             <Card>
               <CardHeader>
                 <CardTitle>Stepper</CardTitle>
-                <CardDescription>Horizontal (default) and vertical.</CardDescription>
+                <CardDescription>
+                  Horizontal (default) and vertical. Click a completed step to jump back.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-section">
-                <Stepper steps={ORDER_STEPS} currentStep={2} />
-                <Stepper steps={ORDER_STEPS} currentStep={2} orientation="vertical" />
+                <Stepper
+                  steps={ORDER_STEPS}
+                  currentStep={stepperStep}
+                  onStepClick={setStepperStep}
+                />
+                <Stepper
+                  steps={ORDER_STEPS}
+                  currentStep={stepperStep}
+                  orientation="vertical"
+                  onStepClick={setStepperStep}
+                />
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle>Select &amp; MultiSelect</CardTitle>
+                <CardTitle>Select, MultiSelect &amp; Combobox</CardTitle>
+                <CardDescription>
+                  Combobox is a single-select with search — use it instead of MultiSelect when only one value is needed.
+                </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-wrap gap-section max-w-2xl">
                 <Select value={selectedFruit} onValueChange={setSelectedFruit}>
@@ -412,20 +458,31 @@ export function App() {
                     placeholder="Select items..."
                   />
                 </div>
+
+                <div className="w-64">
+                  <Combobox
+                    options={MULTI_SELECT_OPTIONS}
+                    value={comboSelected}
+                    onChange={setComboSelected}
+                    placeholder="Select an item..."
+                  />
+                </div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle>Date range, Slider, OTP, Phone</CardTitle>
+                <CardTitle>Date picker, Date range, Slider, OTP, Phone</CardTitle>
               </CardHeader>
               <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-section max-w-2xl">
+                <DatePicker value={singleDate} onChange={setSingleDate} onClear={() => setSingleDate(null)} />
+
                 <DateRangePicker value={dateRange} onChange={setDateRange} onClear={() => setDateRange(null)} />
 
                 <Slider
                   label="Table width"
                   value={sliderValue}
-                  onChange={(e) => setSliderValue(Number(e.target.value))}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSliderValue(Number(e.target.value))}
                   min={20}
                   max={100}
                 />

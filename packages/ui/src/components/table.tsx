@@ -2,6 +2,51 @@ import * as React from "react";
 
 import { cn } from "../lib/cn";
 
+/**
+ * Filter/search bar that sits above a Table inside the same card. Renders as a
+ * single bordered section (bottom border) so search inputs and filter selects
+ * read as one toolbar instead of floating controls — matches the tenant-dashboard
+ * table header look.
+ */
+const TableToolbar = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "flex flex-wrap items-center justify-between gap-grid border-b border-border px-grid py-inner",
+      className,
+    )}
+    {...props}
+  />
+));
+TableToolbar.displayName = "TableToolbar";
+
+const TableToolbarFilters = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex flex-1 flex-wrap items-center gap-inner", className)}
+    {...props}
+  />
+));
+TableToolbarFilters.displayName = "TableToolbarFilters";
+
+const TableToolbarActions = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex shrink-0 items-center gap-inner", className)}
+    {...props}
+  />
+));
+TableToolbarActions.displayName = "TableToolbarActions";
+
 const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
@@ -124,4 +169,7 @@ export {
   TableRow,
   TableCell,
   TableCaption,
+  TableToolbar,
+  TableToolbarFilters,
+  TableToolbarActions,
 };

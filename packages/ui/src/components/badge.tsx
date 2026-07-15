@@ -3,9 +3,13 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/cn";
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full px-grid border py-1 text-body-3 font-normal transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  "inline-flex items-center rounded-md px-grid border py-1 text-body-3 font-normal transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
   {
     variants: {
+      shape: {
+        rounded: "rounded-md",
+        pill: "rounded-full",
+      },
       variant: {
         default: "border-transparent bg-primary !text-primary-foreground",
         secondary: "border-transparent bg-secondary !text-content-secondary",
@@ -33,6 +37,7 @@ const badgeVariants = cva(
     },
     defaultVariants: {
       variant: "default",
+      shape: "rounded",
     },
   },
 );
@@ -48,13 +53,14 @@ export interface BadgeProps
 function Badge({
   className,
   variant,
+  shape,
   label,
   children,
   dotColor,
   ...props
 }: BadgeProps) {
   return (
-    <div className={cn(badgeVariants({ variant }), className)} {...props}>
+    <div className={cn(badgeVariants({ variant, shape }), className)} {...props}>
       {dotColor && (
         <span
           className={cn("mr-1.5 h-2 w-2 rounded-full shrink-0", dotColor)}

@@ -47,6 +47,9 @@ export {
   TableRow,
   TableCell,
   TableCaption,
+  TableToolbar,
+  TableToolbarFilters,
+  TableToolbarActions,
 } from "./components/table";
 export {
   Sheet,
@@ -71,7 +74,7 @@ export {
   type ToastProps,
   type ToastActionElement,
 } from "./components/toast";
-export { Toaster } from "./components/toaster";
+export { Toaster, type ToasterProps } from "./components/toaster";
 export { useToast, toast } from "./hooks/use-toast";
 export {
   Stepper,
@@ -143,6 +146,12 @@ export {
   type MultiSelectProps,
 } from "./components/multiselect";
 export { DateRangePicker, type DateRange } from "./components/date-range-picker";
+export { DatePicker } from "./components/date-picker";
+export {
+  Combobox,
+  type ComboboxOption,
+  type ComboboxProps,
+} from "./components/combobox";
 export { Slider, type SliderProps } from "./components/slider";
 export {
   InputOTP,

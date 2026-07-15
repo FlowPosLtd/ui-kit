@@ -25,7 +25,12 @@ function getIcon(variant: ToastVariant) {
   }
 }
 
-export function Toaster() {
+export interface ToasterProps {
+  /** Extra classes for the viewport — use to nudge it below a fixed banner (e.g. a staging-environment strip). */
+  viewportClassName?: string;
+}
+
+export function Toaster({ viewportClassName }: ToasterProps = {}) {
   const { toasts } = useToast();
 
   return (
@@ -41,7 +46,7 @@ export function Toaster() {
           </Toast>
         );
       })}
-      <ToastViewport />
+      <ToastViewport className={viewportClassName} />
     </ToastProvider>
   );
 }
